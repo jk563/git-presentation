@@ -1,0 +1,59 @@
+# Creating a git commit with just .git
+
+- Create new directory
+mkdir cool-project
+cd cool-project
+
+- Prove no working git
+ls -R -a
+git status
+git log
+
+- Create .git, objects, refs
+mkdir .git .git/objects .git/refs
+
+- Create HEAD file
+echo "ref: refs/heads/master" > .git/HEAD
+
+- Show git now works
+git status
+git log
+
+- Create a blob in objects
+echo "my awesome code" | git hash-object --stdin
+echo "my awesome code" | git hash-object --stdin -w
+
+- See the compressed object
+cat .git/objects/${FIRST_TWO_HASH}/${REST_OF_HASH}
+
+- See the uncompressed object
+git cat-file -p ${SHORT_HASH}
+
+- Update index to include file and name
+git update-index --add --cacheinfo 100644 ${FULL_HASH} ${FILENAME}
+
+- Show index
+cat .git/index
+
+- Create tree object
+git write-tree
+
+- Show tree object
+git cat-file -p ${SHORT_HASH}
+
+- Create commit object
+echo "Initial commit" | git commit-tree ${SHORT_HASH}
+
+- Show commit object
+git cat-file -p ${SHORT_HASH}
+
+- Point master to the commit
+mkdir .git/refs/heads
+echo "${FULL_HASH}" > .git/refs/heads/master
+
+- Show log
+git log
+
+- Restore 
+git status
+git restore codefile.ext
