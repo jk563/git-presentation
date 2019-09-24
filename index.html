@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>So What Is A Git Commit?</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+
+      .highlight { background: lime; }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# So What Is A Git Commit?
+
+???
+- We'll have a look at a commit
+- Check how it is stored in git
+- How the commit represents the files in it
+---
+
+class: center, middle
+
+## A Git Commit As Seen In 'git log'
+
+.left[
+```git
+commit 05793d792a9963c468b5ffeec7b9b2c4e45c92fe (HEAD -> master, origin/master, origin/HEAD)
+Author: Jamie Kelly <git@jamiekelly.com>
+Date:   Mon Sep 23 21:19:55 2019 +0100
+
+    Initial runbook
+```]
+
+???
+- references
+- Author
+- Date Commit
+- Commit hash
+- Hash points to location on disk of compressed object
+
+--
+
+.left[
+```bash
+ls .git/objects/05/
+793d792a9963c468b5ffeec7b9b2c4e45c92fe
+```]
+
+---
+
+class: center, middle
+
+## An Actual Commit Object
+
+.left[
+```git
+tree 49d65379637d5c99dc1147e77f7f0f7562ac89ce
+author Jamie Kelly <git@jamiekelly.com> 1569269995 +0100
+committer Jamie Kelly <git@jamiekelly.com> 1569269995 +0100
+
+Initial runbook
+```]
+
+???
+- Tree hash
+- Author and commiter
+- timestamps
+
+---
+
+class: center, middle
+
+## The Tree Object
+
+.left[
+```
+100644 blob a8ac272570a08c07e3ba96ef41822eab86abc9e9	runbook
+100644 blob 99bb525dcdf3258670ce9c76b30804fab37cc8d3	what-is-git-lightning.html
+```
+]
+
+---
+
+class: center, middle
+
+## How Does This All Look?
+
+![Commit and Objects](commit.svg)
+    </textarea>
+    <script src="remark.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>

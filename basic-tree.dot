@@ -1,0 +1,14 @@
+digraph {
+    node [shape="box"]    
+
+    commit [label="commit\n05793d792a9963c468b5ffeec7b9b2c4e45c92fe"]
+
+    tree [label="tree\n49d65379637d5c99dc1147e77f7f0f7562ac89ce"]
+
+    doc [label="blob\n99bb525dcdf3258670ce9c76b30804fab37cc8d3\nwhat-is-git-lightning.html"]
+    runbook [label="blob\na8ac272570a08c07e3ba96ef41822eab86abc9e9\nrunbook"]
+
+    commit -> tree -> doc, runbook
+
+}
+
