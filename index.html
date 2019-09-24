@@ -14,32 +14,56 @@
         font-weight: normal;
       }
 
-      .highlight { background: lime; }
       .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .inverse {
+        background: #272822;
+        color: #dddddd;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+      .orange { color: #ff9000;}
     </style>
   </head>
   <body>
     <textarea id="source">
+layout:true
+name: layout_slide
+class: center, middle, inverse
 
-class: center, middle
+---
 
-# So What Is A Git Commit?
+# .orange[So what is a git commit?]
 
 ???
 - We'll have a look at a commit
-- Check how it is stored in git
-- How the commit represents the files in it
+- See how it is stored in git
+- See how the commit represents the files in the checkout
 ---
 
-class: center, middle
+## .orange[ What the repository looks like]
 
-## What the repository looks like
+.left[```bash
+drwxr-xr-x  12 jamiekelly  staff   384B 24 Sep 20:37 .git
+-rw-r--r--   1 jamiekelly  staff   1.1K 23 Sep 21:15 runbook
+-rw-r--r--   1 jamiekelly  staff   913B 24 Sep 20:37 what-is-git-lightning.html
+```]
+
+???
+- After checking out a commit
+- .git contains all git objects, refs, etc
+- Other than that, just two files
 
 ---
 
-class: center, middle
-
-## A Git Commit As Seen In 'git log'
+## .orange[A git commit as seen in 'git log']
 
 .left[
 ```git
@@ -51,28 +75,42 @@ Date:   Mon Sep 23 21:19:55 2019 +0100
 ```]
 
 ???
+- Author, date
 - references
-- Author
-- Date Commit
 - Commit hash
 - Hash points to location on disk of compressed object
 
 --
 
+## .orange[Where objects are stored]
 .left[
 ```bash
-ls .git/objects/05/
-793d792a9963c468b5ffeec7b9b2c4e45c92fe
-```]
+.git/objects/05/793d792a9963c468b5ffeec7b9b2c4e45c92fe
+```
+]
+
+???
+- Stored in .git/objects
+- First two characters of the hash are the directory
+- Rest are file
+- Points to a compressed object on disk
 
 ---
 
-class: center, middle
-
-## An Actual Commit Object
+## .orange[Viewing git objects]
 
 .left[
-```git
+```bash
+git cat-file -p 05793d792a9963c468b5ffeec7b9b2c4e45c92fe
+```
+]
+
+--
+
+## .orange[Actual commit object]
+
+.left[
+```bash
 tree 49d65379637d5c99dc1147e77f7f0f7562ac89ce
 author Jamie Kelly <git@jamiekelly.com> 1569269995 +0100
 committer Jamie Kelly <git@jamiekelly.com> 1569269995 +0100
@@ -81,35 +119,71 @@ Initial runbook
 ```]
 
 ???
+- Commit info you'd expect
 - Tree hash
-- Author and commiter
-- timestamps
+- The tree the commit points to is the repository contents at the time of the commit
+- Snapshot of files (not deltas, well sometimes, but not really, but can be, more on that another time)
+- It's just another object, so we can git cat-file again
 
 ---
 
-class: center, middle
+## .orange[Reminder of what the repository looks like]
 
-## The Tree Object
+.left[```bash
+drwxr-xr-x  12 jamiekelly  staff   384B 24 Sep 20:37 .git
+-rw-r--r--   1 jamiekelly  staff   1.1K 23 Sep 21:15 runbook
+-rw-r--r--   1 jamiekelly  staff   913B 24 Sep 20:37 what-is-git-lightning.html
+```
+]
+
+--
+
+## .orange[The tree object]
 
 .left[
-```
+```bash
 100644 blob a8ac272570a08c07e3ba96ef41822eab86abc9e9	runbook
 100644 blob 99bb525dcdf3258670ce9c76b30804fab37cc8d3	what-is-git-lightning.html
 ```
 ]
 
+???
+- One blob entry per file
+- Directories would show as another tree object
+- git cat-file on those hashes would show the file
+- and that's how we get from a commit to the contents of the repository
+
 ---
 
-class: center, middle
+## .orange[How does this all look?]
 
-## How Does This All Look?
+![:scale 90%](commit.svg)
 
-![Commit and Objects](commit.svg)
+???
+- Explain pointers
+
+---
+
+# .orange[Lunch and learn]
+- Coming Soon&trade;
+- Creating a git repository without init, add, commit, or even creating a normal file
+- Will be able to run 'git log' and see commit history
+- Will be able to restore a file that never existed
+
+???
+- As you've seen, git uses hashes as keys to objects
+- Objects are files in the filesystem
+- It follows that in creating the right files, we could create a git log without creating any files outside of a .git directory or using the likes of init, add, and commit
+
     </textarea>
     <script src="remark.js">
     </script>
     <script>
-      var slideshow = remark.create();
+    remark.macros.scale = function (percentage) {
+          var url = this;
+            return '<img src="' + url + '" style="width: ' + percentage + '" />';
+    };
+      var slideshow = remark.create({countIncrementalSlides: false});
     </script>
   </body>
 </html>
